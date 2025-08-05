@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Ask2Mi — Llama Float Edition</title>
-  <link rel="icon" type="image/png" href="kuzco.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask2Mi — Llama Peek Edition</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="kuzco.png" />
+
   <style>
     html, body {
       margin: 0;
@@ -15,6 +17,7 @@
       background: #000;
     }
 
+    /* ⭐ Star background */
     body::before, body::after {
       content: "";
       position: absolute;
@@ -31,7 +34,7 @@
 
     body::after {
       animation-direction: reverse;
-      opacity: 0.1;
+      opacity: 0.12;
     }
 
     @keyframes starMove {
@@ -39,19 +42,20 @@
       100% { transform: translate(-50%, -50%); }
     }
 
+    /* 🌌 Modal */
     .modal {
-      position: relative;
-      z-index: 2;
-      width: 90%;
-      max-width: 420px;
-      margin: auto;
+      position: absolute;
       top: 50%;
-      transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      max-width: 420px;
       background-color: #1c2a3a;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-      padding: 30px 24px;
+      padding: 30px 20px;
       border: 2px solid #e0b22a;
+      z-index: 2;
       animation: pulse 2s infinite;
     }
 
@@ -121,7 +125,7 @@
       font-size: 12px;
       color: #888;
       width: 100%;
-      z-index: 2;
+      z-index: 1;
     }
 
     @keyframes pulse {
@@ -130,35 +134,52 @@
       100% { box-shadow: 0 0 8px #e0b22a; }
     }
 
-    /* 🦙 Floating Kuzcos */
-    .llama-float {
+    /* 🦙 Kuzco Llama Peek */
+    .llama {
       position: absolute;
-      width: 60px;
-      height: auto;
+      bottom: 40px;
+      left: -140px;
+      height: 150px;
+      transform: translateX(-100%);
+      opacity: 0;
+      transition: all 0.8s ease-in-out;
       z-index: 1;
       pointer-events: none;
-      opacity: 0.9;
-      animation: floatLlama linear infinite;
     }
 
-    @keyframes floatLlama {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
+    .modal:hover ~ .llama {
+      transform: translateX(40px);
+      opacity: 1;
+    }
+
+    /* 📱 Mobile improvements */
+    @media (max-width: 480px) {
+      .modal {
+        padding: 20px 16px;
       }
-      10% {
-        opacity: 1;
+
+      textarea {
+        font-size: 16px;
+        height: 80px;
       }
-      100% {
-        transform: translateY(-120vh) rotate(360deg);
-        opacity: 0;
+
+      button {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+
+      .llama {
+        height: 100px;
+        bottom: 20px;
+        left: -100px;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="modal">
+  <!-- 🚀 Modal -->
+  <div class="modal" id="modal">
     <h2>Ask2Mi 🖖</h2>
     <p>Got a galactic question for Mimi? Type it below and beam it up.</p>
     <div class="input-area">
@@ -168,26 +189,17 @@
     <div class="thanks" id="thanksMsg">✅ Your question was transmitted to the ship.</div>
   </div>
 
-  <div class="footer">🛰️ Part of the MIMI newsletter experience — Llama Space Edition.</div>
+  <!-- 🦙 Kuzco Llama -->
+  <img src="kuzco.png" alt="Llama Kuzco" class="llama" />
 
-  <!-- 🦙 Multiple Floating Kuzcos -->
+  <div class="footer">🛰️ Part of the MIMI newsletter experience — Space Edition.</div>
+
+  <!-- 💾 JavaScript -->
   <script>
-    const kuzcoCount = 6;
-    for (let i = 0; i < kuzcoCount; i++) {
-      const llama = document.createElement("img");
-      llama.src = "kuzco.png"; // Make sure kuzco.png is in the same folder
-      llama.className = "llama-float";
-      llama.style.left = `${Math.random() * 100}%`;
-      llama.style.animationDuration = `${10 + Math.random() * 10}s`;
-      llama.style.animationDelay = `${Math.random() * 5}s`;
-      document.body.appendChild(llama);
-    }
-
     async function submitQuestion() {
       const button = document.querySelector("button");
       const textarea = document.getElementById("userQuestion");
       const thanksMsg = document.getElementById("thanksMsg");
-
       const question = textarea.value;
 
       if (!question.trim()) {
@@ -222,6 +234,24 @@
         button.innerText = "Send to Mimi";
       }
     }
+
+    // 🖐️ Support Llama peek on tap (mobile)
+    document.addEventListener("DOMContentLoaded", () => {
+      const modal = document.getElementById('modal');
+      const llama = document.querySelector('.llama');
+
+      modal.addEventListener("click", () => {
+        if (window.innerWidth <= 600) {
+          llama.style.transform = 'translateX(40px)';
+          llama.style.opacity = '1';
+          setTimeout(() => {
+            llama.style.transform = 'translateX(-100%)';
+            llama.style.opacity = '0';
+          }, 2000);
+        }
+      });
+    });
   </script>
+
 </body>
 </html>
