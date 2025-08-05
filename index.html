@@ -109,34 +109,50 @@
   <div class="footer">This box is part of the MIMI newsletter experience.</div>
 
   <script>
-    function submitQuestion() {
-      const question = document.getElementById('userQuestion').value;
+  async function submitQuestion() {
+    const button = document.querySelector("button");
+    const textarea = document.getElementById("userQuestion");
+    const thanksMsg = document.getElementById("thanksMsg");
 
-      if (!question.trim()) {
-        alert("Please enter a question.");
-        return;
-      }
+    const question = textarea.value;
 
-      fetch('https://ask2mi-backend.onrender.com/ask', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ question })
-})
-
-      .then(response => {
-        if (response.ok) {
-          document.getElementById('userQuestion').style.display = 'none';
-          document.querySelector('button').style.display = 'none';
-          document.getElementById('thanksMsg').style.display = 'block';
-        } else {
-          alert("Error sending your question. Please try again.");
-        }
-      });
+    if (!question.trim()) {
+      alert("Please enter a question.");
+      return;
     }
-  </script>
+
+    // Disable button and update UI
+    button.disabled = true;
+    button.innerText = "Sending...";
+
+    try {
+      const response = await fetch('https://ask2mi-backend.onrender.com/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ question })
+      });
+
+      if (response.ok) {
+        textarea.style.display = 'none';
+        button.style.display = 'none';
+        thanksMsg.style.display = 'block';
+      } else {
+        alert("Error sending your question. Please try again.");
+        button.disabled = false;
+        button.innerText = "Send to Mimi";
+      }
+    } catch (error) {
+      alert("Network error. Please try again.");
+      button.disabled = false;
+      button.innerText = "Send to Mimi";
+    }
+  }
+</script>
+
 </body>
 </html>
+
 
 
