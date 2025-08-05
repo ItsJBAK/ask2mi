@@ -117,13 +117,14 @@
         return;
       }
 
-      fetch('https://script.google.com/macros/s/AKfycbwq-eRFs8_sIQUqiVI04AJMXn_IOaaC6z0XkWsUeKUR5FFLcAYRRu7fYXyKGNBTrMEH/exec', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ question })
-      })
+      fetch('https://ask2mi-backend.onrender.com/ask', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ question })
+})
+
       .then(response => {
         if (response.ok) {
           document.getElementById('userQuestion').style.display = 'none';
@@ -137,4 +138,5 @@
   </script>
 </body>
 </html>
+
 
