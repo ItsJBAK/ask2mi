@@ -131,23 +131,25 @@
       100% { box-shadow: 0 0 8px #e0b22a; }
     }
 
-    /* 🦙 Kuzco Llama Peek */
-    .llama {
-      position: absolute;
-      bottom: 40px;
-      left: -180px;
-      height: 150px;
-      transform: translateX(-100%);
-      opacity: 0;
-      transition: all 0.8s ease-in-out;
-      z-index: 1;
-      pointer-events: none;
-    }
+ /* 🦙 Kuzco Llama Peek */
+.llama {
+  position: absolute;
+  bottom: 40px;
+  left: -180px;
+  height: 150px;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: all 0.8s ease-in-out;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(2px 2px 4px #000);
+}
 
-    .modal:hover ~ .llama {
-      transform: translateX(40px);
-      opacity: 1;
-    }
+.modal:hover + .llama {
+  transform: translateX(40px);
+  opacity: 1;
+}
+
   </style>
 </head>
 <body>
@@ -163,7 +165,7 @@
   </div>
 
   <!-- 🦙 Kuzco image (must exist in your repo root or update the src path accordingly) -->
-  <img src="kuzco.png" alt="Llama Kuzco" class="llama" />
+<img src="kuzco.png" alt="Llama Kuzco" class="llama" />
 
   <div class="footer">🛰️ Part of the MIMI newsletter experience — Space Edition.</div>
 
@@ -209,4 +211,5 @@
 
 </body>
 </html>
+
 
