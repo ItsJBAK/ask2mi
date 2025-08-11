@@ -81,6 +81,7 @@
       const question = textarea.value.trim();
       if (!question) { alert("Please enter a question."); return; }
       button.disabled = true; button.innerText = "Sending...";
+      Starfield.accelerate(1.0); setTimeout(() => Starfield.accelerate(0), 2000);
       try {
         const r = await fetch('https://ask2mi-backend.onrender.com/ask', {
           method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ question })
@@ -110,3 +111,4 @@
   </script>
 </body>
 </html>
+
